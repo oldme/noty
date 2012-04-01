@@ -1,0 +1,14 @@
+(c) Axiologic SaaS SRL
+License: GPL
+
+What is Noty?
+
+
+Requirements:
+ - node.js
+ - carrier (nmp install carrier) /* easier to read a line */
+ 
+
+IDE configuration
+ - VJET plugin
+ - NodejsTL : https://www.ebayopensource.org/wiki/display/VJET/Importing+VJET+JavaScript+Type+Libraries
