@@ -4,7 +4,6 @@
 */
 
 
-//var cache = require('GlobalCache');
 /*
  * //commands get read in this format:  cmd=persistence&appKey=value&sessionId=value&...
  * persistence -> noty
