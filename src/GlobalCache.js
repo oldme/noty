@@ -58,26 +58,25 @@ function AppCache()
 
 
 
-function TableCache() //construct an obect to keep ObjctObservers in object
+function TableCache(tableName) //construct an object to keep ObjectObservers in object
 {	
 	this.objects = new Array();
 	this.newObservers = new Object();
+	this.tableName = tableName;
 }
 
-TableCache.prototype.getObjectObserver = function (id)
-{	
-	return this.objects[id];
-};
 
-
-function ObjectObservers() //constructor for an object that keeps a list with current observers for a table row
+function ObjectObservers(table,objectId) //constructor for an object that keeps a list with current observers for a table row
 {	
-	this.observers = new Object();
+	this.observers 	= new Object();
+	this.table 		= table;
+	this.objectId 	= objectId;
 }
 
 //shared variables for all calls...
 var forDelete = new Array();
 		
+//notify all oservers,the session causing the change don't get notified
 ObjectObservers.prototype.notify = function(updaterSessionId,notifyFunction)
 	{		
 		var i=null;
@@ -89,7 +88,7 @@ ObjectObservers.prototype.notify = function(updaterSessionId,notifyFunction)
 			}
 			else if(i != updaterSessionId)
 			{
-				notifyFunction(i);
+				notifyFunction(i,this.table,this.objectId);
 			}
 		}
 		
@@ -100,12 +99,53 @@ ObjectObservers.prototype.notify = function(updaterSessionId,notifyFunction)
 		forDelete.clear(); //todo check
 	};
 	
-
+ObjectObservers.prototype.subscribe = function(updaterSessionId)
+{
+	this.observers[updaterSessionId] = updaterSessionId;
+};
 
 GlobalCache.prototype.subscribe = function (appNameKey, tableName, ranges, sessionId) 
 {
 		var tc = this.getTableCache(appNameKey, tableName);	
 		tc.register(ranges, sessionId);
+};
+
+
+TableCache.prototype.getObjectObserver = function (id)
+{	
+	var oo = this.objects[id];
+	if(oo == null)
+	{
+		this.objects[id] = new ObjectObservers(this.tableName,id)
+	}
+	return 
+};
+
+
+TableCache.prototype.subscribe = function(ranges,sessionId)
+{
+	var arr = ranges.split(",");
+	var len=arr.length;
+	var oo;
+	for(var i=0; i<len; i++) 
+	{
+		var value = arr[i];
+		var r = value.split("-");
+		var len=r.length;
+		if(len==2)
+		{
+			for(var j=r[0];j<r[1];j++)
+			{
+				oo = this.getObjectObserver(j);
+				oo.subscribe(sessionId);
+			}
+		}
+		else
+		{
+			oo = this.getObjectObserver(value);
+			oo.subscribe(sessionId);
+		}		
+	}
 };
 
 
