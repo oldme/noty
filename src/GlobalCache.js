@@ -107,7 +107,7 @@ ObjectObservers.prototype.subscribe = function(updaterSessionId)
 GlobalCache.prototype.subscribe = function (appNameKey, tableName, ranges, sessionId) 
 {
 		var tc = this.getTableCache(appNameKey, tableName);	
-		tc.register(ranges, sessionId);
+		tc.subscribe(ranges, sessionId);
 };
 
 
@@ -116,35 +116,42 @@ TableCache.prototype.getObjectObserver = function (id)
 	var oo = this.objects[id];
 	if(oo == null)
 	{
-		this.objects[id] = new ObjectObservers(this.tableName,id)
+		oo = new ObjectObservers(this.tableName,id);
+		this.objects[id] = oo;
 	}
-	return 
+	return oo;
 };
 
+
+TableCache.prototype.subscribeSingleRange = function(value,sessionId)
+{
+	var r = value.split("-");
+	var len=r.length;
+	var oo;
+	if(len==2)
+	{
+		for(var j=r[0];j<r[1];j++)
+		{
+			oo = this.getObjectObserver(j);
+			oo.subscribe(sessionId);
+		}
+	}
+	else
+	{
+		oo = this.getObjectObserver(value);
+		oo.subscribe(sessionId);
+	}
+
+}
 
 TableCache.prototype.subscribe = function(ranges,sessionId)
 {
 	var arr = ranges.split(",");
 	var len=arr.length;
-	var oo;
-	for(var i=0; i<len; i++) 
+	var i;
+	for(i=0; i<len; i++) 
 	{
-		var value = arr[i];
-		var r = value.split("-");
-		var len=r.length;
-		if(len==2)
-		{
-			for(var j=r[0];j<r[1];j++)
-			{
-				oo = this.getObjectObserver(j);
-				oo.subscribe(sessionId);
-			}
-		}
-		else
-		{
-			oo = this.getObjectObserver(value);
-			oo.subscribe(sessionId);
-		}		
+		this.subscribeSingleRange(arr[i],sessionId);		
 	}
 };
 

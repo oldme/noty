@@ -1,0 +1,7 @@
+GLOBAL_RULES=default
+JAVASCRIPT_SEMANTIC=default
+JAVA_COMPAT_TYPE_CHECK=default
+TYPE_CHECK=default
+VJETVALIDATION=true
+VJO_SPECIFIC=default
+eclipse.preferences.version=1

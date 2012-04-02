@@ -3,6 +3,7 @@
 	<name>notyServer</name>
 	<comment></comment>
 	<projects>
+		<project>NodejsTL</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

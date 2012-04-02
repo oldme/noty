@@ -41,8 +41,8 @@ function createTCPServer(port)
 
 function NotyTcpServer(port)
 {
-	var net   	= require('net');
 	var carrier = require('carrier');
+	var net   	= require('net');
 	var notyServer = this;
 	var server = net.createServer(
 		function (socket) 
