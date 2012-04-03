@@ -14,7 +14,7 @@ function assertNoCall(app,table,id,session)
 	var id 		= id;
 	var session = session;	
 	cache.onUpdate(myApp,table,id,session,
-				function (session,table,id)
+				function (app,table,id,session)
 				{			
 					console.log("Wrong notification for " + mkCall(myApp,table,id,session));
 					//assert.equal(true,false,"Update notification failed for " + myApp + "/" + table + "/"+id + " in session "+ session);
@@ -71,7 +71,7 @@ function assertMandatoryCall(app,table,id,session,session1,session2,session3)
 	if(session3 != null) registerRequiredCall(myApp,myTable,myId,session3);
 	
 	cache.onUpdate(myApp,table,id,session,
-				function (app,session,table,id)
+				function (app,table,id,session)
 				{					
 					doRequiredCall(app,table,id,session);
 					if(session != session1 && session != session2 && session != session3)
@@ -88,8 +88,8 @@ function assertMandatoryCall(app,table,id,session,session1,session2,session3)
 cache.subscribe("app1","table1","1",'session1');
 cache.subscribe("app1","table1","10-100",'session1');
 cache.subscribe("app1","table1","101-102,200-300,500-10000",'session1');
-cache.subscribe("app1","table1","101-102,203-300,500-10000",'session2');
-cache.subscribe("app1","table1","101-102,203-300,500-10000",'session3');
+cache.subscribe("app1","table1","101-102,203-300,500-10000,10001,10002",'session2');
+cache.subscribe("app1","table1","101-102,203-300,500-10000,10001-10002",'session3');
 
 assertNoCall("app1","table1",1,'session1');
 assertNoCall("app2","table1",1,'session2');
@@ -111,24 +111,34 @@ assertNoCall("app1","table1",20000,'session5');
 
 	
 assertMandatoryCall("app1","table1",101,"session3","session1","session2",null);
-	
-/*
-
 assertMandatoryCall("app1","table1",101,"session5","session1","session2","session3");
 assertMandatoryCall("app1","table1",203,"session3","session1","session2",null);
 assertMandatoryCall("app1","table1",203,"session5","session1","session2","session3");
 assertMandatoryCall("app1","table1",204,"session3","session1","session2",null);
 assertMandatoryCall("app1","table1",204,"session5","session1","session2","session3");
-assertMandatoryCall("app1","table1",10000,"session3","session1","session2",null);
-assertMandatoryCall("app1","table1",10000,"session5","session1","session2","session3");
 
-*/
+assertMandatoryCall("app1","table1",299,"session5","session1","session2","session3");
+assertMandatoryCall("app1","table1",300,"session5","session1","session2","session3");
+
+assertMandatoryCall("app1","table1",500,"session1","session2","session3",null);
+assertMandatoryCall("app1","table1",500,"session2","session1","session3",null);
+assertMandatoryCall("app1","table1",500,"session3","session1","session2",null);
+assertMandatoryCall("app1","table1",9999,"session3","session1","session2",null);
+assertMandatoryCall("app1","table1",10000,"session3","session1","session2",null);
+//assertMandatoryCall("app1","table1",10000,"session5","session1","session2","session3");
+	
 
 console.log("\n");
+//check that there are no expected but duplicated and therefore invalid calls 
 for(var callName in callCounter)
-{
-	if(callCounter[callName] !=0)
+{	
+	if(callCounter[callName] >0)
 	{
-		console.log("Call " + callName +" should be zero but is " + callCounter[callName]);
+		console.log("Missing calls for " + callName +" (" + callCounter[callName]+ ')');
+	}
+	
+	if(callCounter[callName] <0)
+	{
+		console.log("Unexpected calls for " + callName +" ( " + callCounter[callName] + ')');
 	}
 }

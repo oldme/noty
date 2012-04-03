@@ -42,7 +42,7 @@ GlobalCache.prototype.getTableCache = function (appNameKey, tableName)
 	var tc = ac[tableName];  //table cache
 	if(tc == null)
 	{
-		tc = new TableCache();
+		tc = new TableCache(tableName,appNameKey);
 		ac[tableName] = tc;
 	}
 	return tc;
@@ -57,12 +57,13 @@ function AppCache()
 }
 
 
-
-function TableCache(tableName) //construct an object to keep ObjectObservers in object
+//>void TableCache(String tableName,String app)
+function TableCache(tableName,app) //construct an object to keep ObjectObservers in object
 {	
 	this.objects = new Array();
 	this.newObservers = new Object();
 	this.tableName = tableName;
+	this.app = app;
 }
 
 
@@ -88,7 +89,7 @@ ObjectObservers.prototype.notify = function(updaterSessionId,notifyFunction)
 			}
 			else if(i != updaterSessionId)
 			{
-				notifyFunction(i,this.table,this.objectId);
+				notifyFunction(this.table.app,this.table.tableName,this.objectId,i);
 			}
 		}
 		
@@ -116,7 +117,7 @@ TableCache.prototype.getObjectObserver = function (id)
 	var oo = this.objects[id];
 	if(oo == null)
 	{
-		oo = new ObjectObservers(this.tableName,id);
+		oo = new ObjectObservers(this,id);
 		this.objects[id] = oo;
 	}
 	return oo;
@@ -130,7 +131,7 @@ TableCache.prototype.subscribeSingleRange = function(value,sessionId)
 	var oo;
 	if(len==2)
 	{
-		for(var j=r[0];j<r[1];j++)
+		for(var j=r[0];j<=r[1];j++)
 		{
 			oo = this.getObjectObserver(j);
 			oo.subscribe(sessionId);
@@ -148,8 +149,8 @@ TableCache.prototype.subscribe = function(ranges,sessionId)
 {
 	var arr = ranges.split(",");
 	var len=arr.length;
-	var i;
-	for(i=0; i<len; i++) 
+	//console.log("Found for " + ranges + " " +len);
+	for(var i=0; i<len; i++) 
 	{
 		this.subscribeSingleRange(arr[i],sessionId);		
 	}
