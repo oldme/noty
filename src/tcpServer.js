@@ -23,26 +23,21 @@
   clientLogout  socket
  */
 
-var cacheModule   = require('./GlobalCache.js');
-var clientsModule = require('./clientList.js');
 
+var clients		  = require('./clientList.js').clientsModule.getClientList();
+var cache		  = require('./GlobalCache.js').getGlobalCache(clients.validClient);
 
-var clients		  = clientsModule.getClientList();
-var cache		  = cacheModule.getGlobalCache(clients.validClient);
-
-
+//> NotyTcpServer createTCPServer(int)
 exports.createTCPServer = createTCPServer;
 
-function createTCPServer(port)
-{
-	return new NotyTcpServer(port);
-};
 
 
+//> void NotyTcpServer(int)
 function NotyTcpServer(port)
 {
-	var carrier = require('carrier');
 	var net   	= require('net');
+	var carrier = require('carrier');
+
 	var notyServer = this;
 	var server = net.createServer(
 		function (socket) 
@@ -128,3 +123,10 @@ NotyTcpServer.prototype.dispatchCommand = function(line,socket)
         	}
     }
 }
+
+
+//> NotyTcpServer createTCPServer(int)
+function createTCPServer(port) 
+{
+	return new NotyTcpServer(port);
+}; 

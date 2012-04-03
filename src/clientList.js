@@ -20,10 +20,16 @@ function ClientList()
 	this.clients = new Object();
 }
 
+function hasOwn(object, property) 
+{ 
+	return Object.prototype.hasOwnProperty.call(object, property); 
+} 
+
 //return a boolean
 ClientList.prototype.validClient = function(clientId)
 {
-	if(this.clients[clientId] != null)
+	
+	if(hasOwn(this,clientId))
 	{
 		return false;
 	}
@@ -38,5 +44,5 @@ ClientList.prototype.addClient = function(clientId,socket)
 
 ClientList.prototype.deleteClient = function(clientId)
 {
-	this.clients[clientId] = null;
+	delete this.clients[clientId];
 }

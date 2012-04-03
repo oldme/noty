@@ -96,7 +96,7 @@ ObjectObservers.prototype.notify = function(updaterSessionId,notifyFunction)
 		{
 			delete this.observers[i]; //sort of lazy garbage collection..  
 		}
-		forDelete.clear(); //todo check
+		forDelete.length=0;//clear
 	};
 	
 ObjectObservers.prototype.subscribe = function(updaterSessionId)
