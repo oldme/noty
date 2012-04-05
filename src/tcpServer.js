@@ -23,9 +23,11 @@
   clientLogout  socket
  */
 
+var cache; //<GlobalCache		  
+var clients		  = require('./clientList.js').getClientList();
 
-var clients		  = require('./clientList.js').clientsModule.getClientList();
-var cache		  = require('./GlobalCache.js').getGlobalCache(clients.validClient);
+cache = require('./GlobalCache.js').getGlobalCache(clients.validClient); 
+
 
 //> NotyTcpServer createTCPServer(int)
 exports.createTCPServer = createTCPServer;
@@ -36,7 +38,7 @@ exports.createTCPServer = createTCPServer;
 function NotyTcpServer(port)
 {
 	var net   	= require('net');
-	var carrier = require('carrier'); 
+	var carrier = require('carrier'); //<carrier
 
 	var notyServer = this;
 	var server = net.createServer(
@@ -56,6 +58,21 @@ function NotyTcpServer(port)
 	server.listen(port);
 };
 
+NotyTcpServer.prototype.notifyUpdate = function (app,table,id,session)
+{
+	var sock = clients[session]; //<socket
+	
+}
+
+NotyTcpServer.prototype.notifyDelete = function (app,table,id,session)
+{
+	
+}
+
+NotyTcpServer.prototype.notifyNew = function (app,table,id,session)
+{
+	
+}
 
 NotyTcpServer.prototype.dispatcher=
 {
@@ -67,36 +84,37 @@ NotyTcpServer.prototype.dispatcher=
 	"update"		: function (cmd)
 		{
 			// appKey sessionId table id	
-			cache.onUpdate(cmd.appKey,cmd.appKey,cmd.table,cmd.id,cmd.sessionId,this.notify);
+			//function (appNameKey, tableName, id, updaterSessionId, notifyFunction)
+			cache.onUpdate(cmd.appKey,cmd.table,cmd.id,cmd.sessionId,this.notifyUpdate);
 		},		
 	"delete"		: function (cmd)
 		{
-			cache.onDelete(cmd.appKey,cmd.appKey,cmd.table,cmd.id,cmd.sessionId,this.notify);
+			cache.onDelete(cmd.appKey,cmd.table,cmd.id,cmd.sessionId,this.notifyDelete);
 			// appKey sessionId table id
 		},
 	"new"			: function (cmd)
 		{
 			// appKey sessionId table id
-			cache.onNew(cmd.appKey, cmd.table, cmd.id, cmd.sessionId, this.notify);
+			//function (appNameKey, tableName, id, creatorSessionId, notifyFunction) 
+			cache.onNew(cmd.appKey, cmd.table, cmd.id, cmd.sessionId, this.notifyNew);
 		},		
 	"subscribe"		: function (cmd)
 		{
 			// appKey sessionId table id1-id2,id3-id4,id5
+			//function (appNameKey, tableName, ranges, sessionId)
+			cache.subscribe(cmd.appKey,cmd.table,cmd.ranges,cmd.sessionId);
 		},
 	"subscribeNew"		: function (cmd)
 		{
 			// appKey sessionId table
+			cache.subscribeNew(cmd.appKey,cmd.table,cmd.sessionId);
 		},		
 	"logout"		: function (cmd)
 		{
 			// appKey sessionId 
+			clients.deleteClient(cmd.sessionId)
+		}
 
-		},
-	"client"		: function (cmd,socket)
-		{
-			// appKey, sessionId, userName 
-			clients.addClient(cmd.sessionId,socket)
-		}			
 };
 
 NotyTcpServer.prototype.dispatchCommand = function(line,socket)
@@ -111,6 +129,17 @@ NotyTcpServer.prototype.dispatchCommand = function(line,socket)
     }
     else
     {
+    	if(cmd.cmd == "registerClient")
+    	{
+    		clients.addClient(cmd.sessionId,socket);
+    		return ;
+    	}
+    	else if(cmd.secret != "secret")
+    	{
+    		console.log("Wrong secret! Ignoring\n");
+    		return ;
+    	}
+
     	var f = this.dispatcher[cmd.cmd]; 
         if(f != null)
         	{

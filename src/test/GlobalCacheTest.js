@@ -96,7 +96,7 @@ cache.subscribe("app1","table1","1",'session1');
 cache.subscribe("app1","table1","10-100",'session1');
 cache.subscribe("app1","table1","101-102,200-300,500-10000",'session1');
 cache.subscribe("app1","table1","101-102,203-300,500-9999,10000,10001,10002",'session2');
-cache.subscribe("app1","table1","101-102,203-300,500-9999,10000,10001-10002",'session3');
+cache.subscribe("app1","table1","101-102,203-300,500-9999,10000,10001-10002,20001-1000000",'session3');
 
 
 
@@ -118,10 +118,7 @@ assertNoCall("app1","table1",20000,'session2');
 assertNoCall("app1","table1",20000,'session3');
 assertNoCall("app1","table1",20000,'session5');
 
-assertNoCall("app1","table1",100000,'session1');
-assertNoCall("app1","table1",100000,'session2');
 assertNoCall("app1","table1",100000,'session3');
-assertNoCall("app1","table1",100000,'session5');
 
 
 assertMandatoryCall("app1","table1",101,"session3","session1","session2",null);
@@ -145,7 +142,9 @@ assertMandatoryCall("app1","table1",9999,"session3","session1","session2",null);
 assertMandatoryCall("app1","table1",9999,"session5","session1","session2","session3");
 	
 
-console.log("\n");
+assertMandatoryCall("app1","table1",1000000,"session1","session3");
+
+console.log("No other messages,all tests passing!\n");
 //check that there are no expected but duplicated and therefore invalid calls 
 for(var callName in callCounter)
 {	
