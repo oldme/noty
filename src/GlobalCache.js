@@ -125,24 +125,20 @@ TableCache.prototype.getObjectObserver = function (id)
 };
 
 
-TableCache.prototype.subscribeSingleRange = function(value,sessionId)
-{
+TableCache.prototype.subscribeSingleRange = function(value,sessionId){
 	var r = value.split("-");
 	var len=r.length;
 	var oo;
 	var j;
-	if(len==2)
-	{
+	if(len==2){
 		//console.log("Subscribing RANGE " + sessionId + " for "+this.tableName+"/"+r[0]+" "+r[1]);
 
-		for(j=parseInt(r[0]);j<=parseInt(r[1]);j++)
-		{
+		for(j=parseInt(r[0]);j<=parseInt(r[1]);j++){
 			oo = this.getObjectObserver(j);
 			oo.subscribe(sessionId);
 		}
 	}
-	else
-	{
+	else{
 		oo = this.getObjectObserver(value);
 		oo.subscribe(sessionId);
 	}

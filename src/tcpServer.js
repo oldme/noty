@@ -24,9 +24,8 @@
  */
 
 var cache; //<GlobalCache		  
-var clients		  = require('./clientList.js').getClientList();
-
-cache = require('./GlobalCache.js').getGlobalCache(clients.validClient); 
+var clients		  = require('./clientList.js').getClientList(); //<ClientList
+cache = require('./GlobalCache.js').getGlobalCache(clients.validClient); //<GlobalCache
 
 
 //> NotyTcpServer createTCPServer(int)
@@ -58,20 +57,31 @@ function NotyTcpServer(port)
 	server.listen(port);
 };
 
+function createChangeText(table,id,type)
+{
+	if(id==null)
+	{
+		return "cmd=change&table="+table+"&type="+type;
+	}
+	return "cmd=change&table="+table+"&id="+id+"&type="+type;
+};
+
 NotyTcpServer.prototype.notifyUpdate = function (app,table,id,session)
 {
-	var sock = clients[session]; //<socket
-	
+	var socket = clients[session]; //<Socket
+	socket.write(createChangeText(table,id,"update"));
 }
 
 NotyTcpServer.prototype.notifyDelete = function (app,table,id,session)
 {
-	
+	var socket = clients[session]; //<Socket
+	socket.write(createChangeText(table,id,"delete"));
 }
 
 NotyTcpServer.prototype.notifyNew = function (app,table,id,session)
 {
-	
+	var socket = clients[session]; //<Socket
+	socket.write(createChangeText(table,null,"new"));
 }
 
 NotyTcpServer.prototype.dispatcher=
@@ -134,7 +144,7 @@ NotyTcpServer.prototype.dispatchCommand = function(line,socket)
     		clients.addClient(cmd.sessionId,socket);
     		return ;
     	}
-    	else if(cmd.secret != "secret")
+    	else if(cmd.secret != "secret") //TODO: get this secret from a configuration file
     	{
     		console.log("Wrong secret! Ignoring\n");
     		return ;
@@ -142,14 +152,14 @@ NotyTcpServer.prototype.dispatchCommand = function(line,socket)
 
     	var f = this.dispatcher[cmd.cmd]; 
         if(f != null)
-        	{
-        		f(cmd,socket);
-        	}
-        	else
-        	{
-        		console.log('Got one wrong line: ' + line + ' parsed as ');
-                console.log(cmd);
-        	}
+    	{
+    		f(cmd,socket);
+    	}
+    	else
+    	{
+    		console.log('Got one wrong line: ' + line + ' parsed as ');
+            console.log(cmd);
+    	}
     }
 }
 

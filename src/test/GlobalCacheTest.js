@@ -73,11 +73,9 @@ function assertMandatoryCall(app,table,id,session,session1,session2,session3)
 	if(session3 != null) registerRequiredCall(myApp,myTable,myId,session3);
 	
 	cache.onUpdate(myApp,table,id,session,
-				function (app,table,id,session)
-				{					
+				function (app,table,id,session){					
 					doRequiredCall(app,table,id,session);
-					if(session != session1 && session != session2 && session != session3)
-					{
+					if(session != session1 && session != session2 && session != session3){
 						//assert.equal(true,false,"False notification for " + myApp + "/" + table + "/"+id + " in session "+ session);
 						console.log("Unexpected notification in session for " + mkCall(myApp,table,id,session));
 					}					
