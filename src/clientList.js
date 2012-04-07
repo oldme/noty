@@ -31,9 +31,12 @@ ClientList.prototype.validClient = function(clientId)
 ClientList.prototype.instance = null;
 
 
-ClientList.prototype.addClient = function(clientId,socket)
+ClientList.prototype.addClient = function(clientId,socket,user)
 {
-	this.clients[clientId] = socket;
+	var o = new Object();
+	o.socket = socket;
+	o.user   = user;
+	this.clients[clientId] = o;
 }
 
 

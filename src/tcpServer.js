@@ -39,49 +39,51 @@ function NotyTcpServer(port)
 	var net   	= require('net');
 	var carrier = require('carrier'); //<carrier
 
-	var notyServer = this;
+	var notyServer = this;	
+	notyServer.name="tcpserver";
 	var server = net.createServer(
 		function (socket) 
-			{		
+			{	
 				carrier.carry(socket, function(line) 
-					 {
-						 notyServer.dispatchCommand(line,socket);
+					 {												
+						//console.log(line);
+						notyServer.dispatchCommand(line,socket);
 					 }
-				);
-				 /*
-				socket.write('Echo server\r\n');
-				socket.pipe(socket);
-				*/
+				);				 
 			}
 		);
 	server.listen(port);
 };
 
-function createChangeText(table,id,type)
+function createChangeText(table,id,user,type)
 {
-	if(id==null)
-	{
-		return "cmd=change&table="+table+"&type="+type;
-	}
-	return "cmd=change&table="+table+"&id="+id+"&type="+type;
+	var cmd 		= new Object();
+	cmd.cmd 		= "client";
+	cmd.table 		= table;
+	cmd.id 			= id;
+	cmd.user 		= user;
+	cmd.type 		= type;  
+	return require('querystring').stringify(cmd)+"\n";
 };
 
-NotyTcpServer.prototype.notifyUpdate = function (app,table,id,session)
+function notifyUpdate(app,table,id,session)
 {
-	var socket = clients[session]; //<Socket
-	socket.write(createChangeText(table,id,"update"));
+//	console.log("Notifing in "+session);
+//	console.log(clients[session]);	
+	var socket = clients.clients[session].socket; //<Socket
+	socket.write(createChangeText(table,id,clients.clients[session].user,"update"));
 }
 
-NotyTcpServer.prototype.notifyDelete = function (app,table,id,session)
+function notifyDelete(app,table,id,session)
 {
-	var socket = clients[session]; //<Socket
-	socket.write(createChangeText(table,id,"delete"));
+	var socket = clients.clients[session].socket; //<Socket
+	socket.write(createChangeText(table,id,clients.clients[session].user,"delete"));
 }
 
-NotyTcpServer.prototype.notifyNew = function (app,table,id,session)
+function notifyNew(app,table,id,session)
 {
-	var socket = clients[session]; //<Socket
-	socket.write(createChangeText(table,null,"new"));
+	var socket = clients.clients[session].socket; //<Socket
+	socket.write(createChangeText(table,id,clients.clients[session].user,"new"));
 }
 
 NotyTcpServer.prototype.dispatcher=
@@ -93,25 +95,19 @@ NotyTcpServer.prototype.dispatcher=
 		},
 	"update"		: function (cmd)
 		{
-			// appKey sessionId table id	
-			//function (appNameKey, tableName, id, updaterSessionId, notifyFunction)
-			cache.onUpdate(cmd.appKey,cmd.table,cmd.id,cmd.sessionId,this.notifyUpdate);
+
+			cache.onUpdate(cmd.appKey,cmd.table,cmd.id,cmd.sessionId,notifyUpdate);
 		},		
 	"delete"		: function (cmd)
 		{
-			cache.onDelete(cmd.appKey,cmd.table,cmd.id,cmd.sessionId,this.notifyDelete);
-			// appKey sessionId table id
+			cache.onDelete(cmd.appKey,cmd.table,cmd.id,cmd.sessionId,notifyDelete);
 		},
 	"new"			: function (cmd)
 		{
-			// appKey sessionId table id
-			//function (appNameKey, tableName, id, creatorSessionId, notifyFunction) 
-			cache.onNew(cmd.appKey, cmd.table, cmd.id, cmd.sessionId, this.notifyNew);
+			cache.onNew(cmd.appKey, cmd.table, cmd.id, cmd.sessionId,notifyNew);
 		},		
 	"subscribe"		: function (cmd)
 		{
-			// appKey sessionId table id1-id2,id3-id4,id5
-			//function (appNameKey, tableName, ranges, sessionId)
 			cache.subscribe(cmd.appKey,cmd.table,cmd.ranges,cmd.sessionId);
 		},
 	"subscribeNew"		: function (cmd)
@@ -131,17 +127,18 @@ NotyTcpServer.prototype.dispatchCommand = function(line,socket)
 {
 	var querystring   	= require('querystring');   
     var cmd = querystring.parse(line);
-    
+   
     if(cmd.cmd ==null)
     {
     	console.log('Got one wrong line: ' + line + ' parsed as ');
-        console.log(cmd);
+        
     }
     else
     {
-    	if(cmd.cmd == "registerClient")
+    	if(cmd.cmd == "client")
     	{
-    		clients.addClient(cmd.sessionId,socket);
+    		console.info("New client "+cmd.sessionId+"/"+cmd.user);
+    		clients.addClient(cmd.sessionId,socket,cmd.user);
     		return ;
     	}
     	else if(cmd.secret != "secret") //TODO: get this secret from a configuration file

@@ -78,46 +78,37 @@ function ObjectObservers(table,objectId) //constructor for an object that keeps 
 var forDelete = new Array();
 		
 //notify all oservers,the session causing the change don't get notified
-ObjectObservers.prototype.notify = function(updaterSessionId,notifyFunction)
-	{		
-		for (var i in this.observers)
-		{
-			if(!GlobalCache.prototype.verifyStillActiveSession(i))		
-			{
+ObjectObservers.prototype.notify = function(updaterSessionId,notifyFunction){		
+		for (var i in this.observers){
+			if(!GlobalCache.prototype.verifyStillActiveSession(i)){
 				console.log("Cleaning session " + i + " for object" + this.objectId);
 				forDelete.push(i);
 			}
-			else if(i != updaterSessionId)
-			{
+			else if(i != updaterSessionId){
 				notifyFunction(this.table.app,this.table.tableName,this.objectId,i);
 			}
 		}
 		
-		for (var j in forDelete )
-		{
+		for (var j in forDelete ){
 			delete this.observers[j]; //sort of lazy garbage collection..  
 		}
 		forDelete.length=0;//clear
 	};
 	
-ObjectObservers.prototype.subscribe = function(sessionId)
-{
+ObjectObservers.prototype.subscribe = function(sessionId){
 	//console.log("Subscribing " + sessionId + " for "+this.table.tableName+"/"+this.objectId);
 	this.observers[sessionId] = sessionId;
 };
 
-GlobalCache.prototype.subscribe = function (appNameKey, tableName, ranges, sessionId) 
-{
+GlobalCache.prototype.subscribe = function (appNameKey, tableName, ranges, sessionId){
 		var tc = this.getTableCache(appNameKey, tableName);	
 		tc.subscribe(ranges, sessionId);
 };
 
 
-TableCache.prototype.getObjectObserver = function (id)
-{	
+TableCache.prototype.getObjectObserver = function (id){	
 	var oo = this.objects[id];
-	if(oo == null)
-	{
+	if(oo == null){
 		oo = new ObjectObservers(this,id);
 		this.objects[id] = oo;
 	}
@@ -145,13 +136,11 @@ TableCache.prototype.subscribeSingleRange = function(value,sessionId){
 
 }
 
-TableCache.prototype.subscribe = function(ranges,sessionId)
-{
+TableCache.prototype.subscribe = function(ranges,sessionId){
 	var arr = ranges.split(",");
 	var len=arr.length;
 	//console.log("Found for " + ranges + " " +len);
-	for(var i=0; i<len; i++) 
-	{
+	for(var i=0; i<len; i++){
 		//console.log("Subscribing " + ranges + " " +len);
 		this.subscribeSingleRange(arr[i],sessionId);		
 	}
@@ -159,8 +148,7 @@ TableCache.prototype.subscribe = function(ranges,sessionId)
 };
 
 
-GlobalCache.prototype.onUpdate = function (appNameKey, tableName, id, updaterSessionId, notifyFunction) 
-{
+GlobalCache.prototype.onUpdate = function (appNameKey, tableName, id, updaterSessionId, notifyFunction){
 	var tc = this.getTableCache(appNameKey, tableName);
 	var oo = tc.getObjectObserver(id); 
 	//console.log(oo.observers);
@@ -170,8 +158,7 @@ GlobalCache.prototype.onUpdate = function (appNameKey, tableName, id, updaterSes
 
 GlobalCache.prototype.onDelete = GlobalCache.prototype.onUpdate;
 
-GlobalCache.prototype.onNew = function (appNameKey, tableName, id, creatorSessionId, notifyFunction) 
-{
+GlobalCache.prototype.onNew = function (appNameKey, tableName, id, creatorSessionId, notifyFunction){
 	var tc = this.getTableCache(appNameKey, tableName);
 	tc.newObservers.notify(creatorSessionId,notifyFunction);
 };
