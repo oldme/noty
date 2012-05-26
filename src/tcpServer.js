@@ -4,25 +4,6 @@
 */
 
 
-/*
- * //commands get read in this format:  cmd=persistence&appKey=value&sessionId=value&...
- * persistence -> noty
- persistence 	appKey sessionId 
- update 		appKey sessionId table id
- delete 		appKey sessionId table id
- new 			appKey sessionId table id
- follows 		appKey sessionId table id1-id2,id3-id4,id5
- notifyNew 		appKey sessionId table all
- logout 		appKey sessionId 
-
- * noty -> client
- change 		table  id 		 new|update|delete
-
- * client -> noty
-  client 		appKey sessionId userName 
-  clientLogout  socket
- */
-
 var cache; //<GlobalCache		  
 var clients		  = require('./clientList.js').getClientList(); //<ClientList
 cache = require('./GlobalCache.js').getGlobalCache(clients.validClient); //<GlobalCache
