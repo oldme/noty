@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2302eaf4-50a7-4ae7-903d-2f33bf42942d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Readme.txt" afterPath="$PROJECT_DIR$/Readme.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tcpServer.js" afterPath="$PROJECT_DIR$/src/tcpServer.js" />
     </list>
     <ignored path="NotyServer.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -207,7 +205,11 @@
       <created>1338065386654</created>
       <updated>1338065386654</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="better readme :)">
+      <created>1338068781293</created>
+      <updated>1338068781293</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -271,7 +273,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Now a WebStorm project" />
+    <option name="LAST_COMMIT_MESSAGE" value="better readme :)" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -285,6 +287,7 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="Now a WebStorm project" />
+    <MESSAGE value="better readme :)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
