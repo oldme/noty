@@ -106,6 +106,12 @@ GlobalCache.prototype.subscribe = function (tenantNameKey, tableName, ranges, se
 };
 
 
+GlobalCache.prototype.subscribeAll = function (tenantNameKey, tableName, sessionId){
+    var tc = this.getTableCache(tenantNameKey, tableName);
+    tc.subscribeAll(ranges, sessionId);
+};
+
+
 TableCache.prototype.getObjectObserver = function (id){	
 	var oo = this.objects[id];
 	if(oo == null){
@@ -147,6 +153,10 @@ TableCache.prototype.subscribe = function(ranges,sessionId){
 	//console.log("When subscribing "+ ranges + "/"+sessionId + " in 500 we have "+ this.objects[101]);
 };
 
+/*
+TableCache.prototype.subscribeAll = function(sessionId){
+};
+*/
 
 GlobalCache.prototype.onUpdate = function (tenantNameKey, tableName, id, updaterSessionId, notifyFunction){
 	var tc = this.getTableCache(tenantNameKey, tableName);

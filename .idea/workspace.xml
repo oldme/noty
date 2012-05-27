@@ -27,10 +27,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GlobalCache.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="GlobalCache.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/GlobalCache.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="0" selection-start="37" selection-end="37" vertical-scroll-proportion="0.21573605">
+            <state line="139" column="32" selection-start="3394" selection-end="3394" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -38,11 +38,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tcpServer.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="tcpServer.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/tcpServer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="3" selection-start="6" selection-end="6" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="47" column="2" selection-start="993" selection-end="993" vertical-scroll-proportion="0.12944162">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -61,7 +63,7 @@
       <file leaf-file-name="TcpServerTest.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/TcpServerTest.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="79" column="0" selection-start="1913" selection-end="1913" vertical-scroll-proportion="0.0">
+            <state line="5" column="0" selection-start="211" selection-end="211" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -106,9 +108,9 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/Readme.txt" />
+        <option value="$PROJECT_DIR$/src/GlobalCache.js" />
         <option value="$PROJECT_DIR$/src/test/TcpServerTest.js" />
         <option value="$PROJECT_DIR$/src/tcpServer.js" />
-        <option value="$PROJECT_DIR$/src/GlobalCache.js" />
       </list>
     </option>
   </component>
@@ -244,7 +246,11 @@
       <created>1338104372916</created>
       <updated>1338104372916</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="rafactory: app -&gt; tenant">
+      <created>1338104848650</created>
+      <updated>1338104848650</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -308,7 +314,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="no silly secret" />
+    <option name="LAST_COMMIT_MESSAGE" value="rafactory: app -&gt; tenant" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -324,6 +330,7 @@
     <MESSAGE value="Now a WebStorm project" />
     <MESSAGE value="better readme :)" />
     <MESSAGE value="no silly secret" />
+    <MESSAGE value="rafactory: app -&gt; tenant" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -354,23 +361,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/GlobalCache.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="139" column="32" selection-start="3394" selection-end="3394" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/TcpServerTest.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="0" selection-start="1913" selection-end="1913" vertical-scroll-proportion="0.0">
+        <state line="5" column="0" selection-start="211" selection-end="211" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tcpServer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="3" selection-start="6" selection-end="6" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GlobalCache.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="37" selection-end="37" vertical-scroll-proportion="0.21573605">
+        <state line="47" column="2" selection-start="993" selection-end="993" vertical-scroll-proportion="0.12944162">
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>

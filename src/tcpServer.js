@@ -90,7 +90,11 @@ NotyTcpServer.prototype.dispatcher=
 	"subscribe"		: function (cmd)
 		{
 			cache.subscribe(cmd.tenantKey,cmd.table,cmd.ranges,cmd.sessionId);
-		},
+		},/*
+    "subscribeAll"		: function (cmd)
+        {
+    cache.subscribeAll(cmd.tenantKey,cmd.table,cmd.ranges,cmd.sessionId);
+        },*/
 	"subscribeNew"		: function (cmd)
 		{
 			// tenantKey sessionId table

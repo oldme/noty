@@ -11,6 +11,7 @@ var persistence= net.createConnection(3000);
 var client1 = net.createConnection(3000);
 var client2 = net.createConnection(3000);
 var client3 = net.createConnection(3000);
+var client4 = net.createConnection(3000);
 
 var callCounter = new Object();
 
@@ -69,7 +70,7 @@ function registerClient(clientSocket,sessionId,user){
 registerClient(client1,"session1","user1");
 registerClient(client2,"session2","user2");
 registerClient(client3,"session3","user3");
-
+registerClient(client4,"session4","user4");
 
 
 function sendCmd(cmd){
@@ -103,7 +104,14 @@ setTimeout(function(){
 				sessionId:"session3",
 				ranges:"1-10,1000"
 			});
-	
+    /*
+    sendCmd({
+        tenantKey:"app",
+        cmd:"subscribeAll",
+        table:"table1",
+        sessionId:"session4"
+    });
+    */
 	registerExpectedCall("table1",500,"user1");		
 	sendCmd({
 				tenantKey:"app",
