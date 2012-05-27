@@ -47,7 +47,7 @@ function createChangeText(table,id,user,type)
 	return require('querystring').stringify(cmd)+"\n";
 };
 
-function notifyUpdate(app,table,id,session)
+function notifyUpdate(tenant,table,id,session)
 {
 //	console.log("Notifing in "+session);
 //	console.log(clients[session]);	
@@ -55,13 +55,13 @@ function notifyUpdate(app,table,id,session)
 	socket.write(createChangeText(table,id,clients.clients[session].user,"update"));
 }
 
-function notifyDelete(app,table,id,session)
+function notifyDelete(tenant,table,id,session)
 {
 	var socket = clients.clients[session].socket; //<Socket
 	socket.write(createChangeText(table,id,clients.clients[session].user,"delete"));
 }
 
-function notifyNew(app,table,id,session)
+function notifyNew(tenant,table,id,session)
 {
 	var socket = clients.clients[session].socket; //<Socket
 	socket.write(createChangeText(table,id,clients.clients[session].user,"new"));
@@ -71,34 +71,34 @@ NotyTcpServer.prototype.dispatcher=
 {
 	"persistence"	: function (cmd)
 		{
-			// appKey  sessionId
+			// tenantKey  sessionId
 			
 		},
 	"update"		: function (cmd)
 		{
 
-			cache.onUpdate(cmd.appKey,cmd.table,cmd.id,cmd.sessionId,notifyUpdate);
+			cache.onUpdate(cmd.tenantKey,cmd.table,cmd.id,cmd.sessionId,notifyUpdate);
 		},		
 	"delete"		: function (cmd)
 		{
-			cache.onDelete(cmd.appKey,cmd.table,cmd.id,cmd.sessionId,notifyDelete);
+			cache.onDelete(cmd.tenantKey,cmd.table,cmd.id,cmd.sessionId,notifyDelete);
 		},
 	"new"			: function (cmd)
 		{
-			cache.onNew(cmd.appKey, cmd.table, cmd.id, cmd.sessionId,notifyNew);
+			cache.onNew(cmd.tenantKey, cmd.table, cmd.id, cmd.sessionId,notifyNew);
 		},		
 	"subscribe"		: function (cmd)
 		{
-			cache.subscribe(cmd.appKey,cmd.table,cmd.ranges,cmd.sessionId);
+			cache.subscribe(cmd.tenantKey,cmd.table,cmd.ranges,cmd.sessionId);
 		},
 	"subscribeNew"		: function (cmd)
 		{
-			// appKey sessionId table
-			cache.subscribeNew(cmd.appKey,cmd.table,cmd.sessionId);
+			// tenantKey sessionId table
+			cache.subscribeNew(cmd.tenantKey,cmd.table,cmd.sessionId);
 		},		
 	"logout"		: function (cmd)
 		{
-			// appKey sessionId 
+			// tenantKey sessionId 
 			clients.deleteClient(cmd.sessionId)
 		}
 

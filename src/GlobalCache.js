@@ -30,19 +30,19 @@ function GlobalCache()
 GlobalCache.prototype.verifyStillActiveSession = null;
 GlobalCache.prototype.instance = null;
 
-GlobalCache.prototype.getTableCache = function (appNameKey, tableName)
+GlobalCache.prototype.getTableCache = function (tenantNameKey, tableName)
 {	
-	var ac = this.globalCache[appNameKey];  //application cache
+	var ac = this.globalCache[tenantNameKey];  //tenantlication cache
 	if(ac == null)
 	{
-		ac = new AppCache();
-		this.globalCache[appNameKey] = ac;
+		ac = new tenantCache();
+		this.globalCache[tenantNameKey] = ac;
 	}
 
 	var tc = ac[tableName];  //table cache
 	if(tc == null)
 	{
-		tc = new TableCache(tableName,appNameKey);
+		tc = new TableCache(tableName,tenantNameKey);
 		ac[tableName] = tc;
 	}
 	return tc;
@@ -50,20 +50,20 @@ GlobalCache.prototype.getTableCache = function (appNameKey, tableName)
 
 
 
-function AppCache()
+function tenantCache()
 {
 	
 	this.tables = new Array();
 }
 
 
-//>void TableCache(String tableName,String app)
-function TableCache(tableName,app) //construct an object to keep ObjectObservers in object
+//>void TableCache(String tableName,String tenant)
+function TableCache(tableName,tenant) //construct an object to keep ObjectObservers in object
 {	
 	this.objects = new Array();
 	this.newObservers = new Object();
 	this.tableName = tableName;
-	this.app = app;
+	this.tenant = tenant;
 }
 
 
@@ -77,7 +77,7 @@ function ObjectObservers(table,objectId) //constructor for an object that keeps 
 //shared variables for all calls...
 var forDelete = new Array();
 		
-//notify all oservers,the session causing the change don't get notified
+//notify all observers,the session causing the change don't get notified
 ObjectObservers.prototype.notify = function(updaterSessionId,notifyFunction){		
 		for (var i in this.observers){
 			if(!GlobalCache.prototype.verifyStillActiveSession(i)){
@@ -85,7 +85,7 @@ ObjectObservers.prototype.notify = function(updaterSessionId,notifyFunction){
 				forDelete.push(i);
 			}
 			else if(i != updaterSessionId){
-				notifyFunction(this.table.app,this.table.tableName,this.objectId,i);
+				notifyFunction(this.table.tenant,this.table.tableName,this.objectId,i);
 			}
 		}
 		
@@ -100,8 +100,8 @@ ObjectObservers.prototype.subscribe = function(sessionId){
 	this.observers[sessionId] = sessionId;
 };
 
-GlobalCache.prototype.subscribe = function (appNameKey, tableName, ranges, sessionId){
-		var tc = this.getTableCache(appNameKey, tableName);	
+GlobalCache.prototype.subscribe = function (tenantNameKey, tableName, ranges, sessionId){
+		var tc = this.getTableCache(tenantNameKey, tableName);	
 		tc.subscribe(ranges, sessionId);
 };
 
@@ -148,8 +148,8 @@ TableCache.prototype.subscribe = function(ranges,sessionId){
 };
 
 
-GlobalCache.prototype.onUpdate = function (appNameKey, tableName, id, updaterSessionId, notifyFunction){
-	var tc = this.getTableCache(appNameKey, tableName);
+GlobalCache.prototype.onUpdate = function (tenantNameKey, tableName, id, updaterSessionId, notifyFunction){
+	var tc = this.getTableCache(tenantNameKey, tableName);
 	var oo = tc.getObjectObserver(id); 
 	//console.log(oo.observers);
 	oo.notify(updaterSessionId,notifyFunction);
@@ -158,8 +158,8 @@ GlobalCache.prototype.onUpdate = function (appNameKey, tableName, id, updaterSes
 
 GlobalCache.prototype.onDelete = GlobalCache.prototype.onUpdate;
 
-GlobalCache.prototype.onNew = function (appNameKey, tableName, id, creatorSessionId, notifyFunction){
-	var tc = this.getTableCache(appNameKey, tableName);
+GlobalCache.prototype.onNew = function (tenantNameKey, tableName, id, creatorSessionId, notifyFunction){
+	var tc = this.getTableCache(tenantNameKey, tableName);
 	tc.newObservers.notify(creatorSessionId,notifyFunction);
 };
 

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2302eaf4-50a7-4ae7-903d-2f33bf42942d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GlobalCache.js" afterPath="$PROJECT_DIR$/src/GlobalCache.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tcpServer.js" afterPath="$PROJECT_DIR$/src/tcpServer.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/TcpServerTest.js" afterPath="$PROJECT_DIR$/src/test/TcpServerTest.js" />
     </list>
@@ -26,10 +27,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GlobalCache.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="GlobalCache.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GlobalCache.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="0" selection-start="928" selection-end="928" vertical-scroll-proportion="0.0">
+            <state line="5" column="0" selection-start="37" selection-end="37" vertical-scroll-proportion="0.21573605">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -37,13 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tcpServer.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="tcpServer.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/tcpServer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="113" column="5" selection-start="2636" selection-end="2636" vertical-scroll-proportion="0.05076142">
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
+            <state line="1" column="3" selection-start="6" selection-end="6" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -62,7 +61,7 @@
       <file leaf-file-name="TcpServerTest.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/TcpServerTest.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="134" column="9" selection-start="3031" selection-end="3031" vertical-scroll-proportion="0.0">
+            <state line="79" column="0" selection-start="1913" selection-end="1913" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -107,8 +106,9 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/Readme.txt" />
-        <option value="$PROJECT_DIR$/src/tcpServer.js" />
         <option value="$PROJECT_DIR$/src/test/TcpServerTest.js" />
+        <option value="$PROJECT_DIR$/src/tcpServer.js" />
+        <option value="$PROJECT_DIR$/src/GlobalCache.js" />
       </list>
     </option>
   </component>
@@ -240,7 +240,11 @@
       <created>1338068795179</created>
       <updated>1338068795179</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="no silly secret">
+      <created>1338104372916</created>
+      <updated>1338104372916</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -251,7 +255,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24980484" sideWeight="0.67147434" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24980484" sideWeight="0.67147434" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -334,15 +338,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/GlobalCache.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="0" selection-start="928" selection-end="928" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Readme.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="0" selection-start="862" selection-end="862" vertical-scroll-proportion="0.0">
@@ -361,14 +356,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/TcpServerTest.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="134" column="9" selection-start="3031" selection-end="3031" vertical-scroll-proportion="0.0">
+        <state line="79" column="0" selection-start="1913" selection-end="1913" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tcpServer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="113" column="5" selection-start="2636" selection-end="2636" vertical-scroll-proportion="0.05076142">
+        <state line="1" column="3" selection-start="6" selection-end="6" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GlobalCache.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="37" selection-end="37" vertical-scroll-proportion="0.21573605">
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>

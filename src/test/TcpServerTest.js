@@ -46,7 +46,7 @@ function doCall(table,id,user)
 
 
 function registerClient(clientSocket,sessionId,user){
-	  //client 		appKey sessionId userName 
+	  //client 		tenantKey sessionId userName 
 	  //clientLogout  socket
 	  var cmd 		= new Object();
 	  cmd.cmd 		= "client";
@@ -80,7 +80,7 @@ function sendCmd(cmd){
 
 setTimeout(function(){
 	sendCmd({
-				appKey:"app",
+				tenantKey:"app",
 				cmd:"subscribe",
 				table:"table1",
 				sessionId:"session1",
@@ -89,7 +89,7 @@ setTimeout(function(){
 
 
 	sendCmd({
-				appKey:"app",
+				tenantKey:"app",
 				cmd:"subscribe",
 				table:"table1",
 				sessionId:"session2",
@@ -97,7 +97,7 @@ setTimeout(function(){
 			});
 	
 	sendCmd({
-				appKey:"app",
+				tenantKey:"app",
 				cmd:"subscribe",
 				table:"table1",
 				sessionId:"session3",
@@ -106,7 +106,7 @@ setTimeout(function(){
 	
 	registerExpectedCall("table1",500,"user1");		
 	sendCmd({
-				appKey:"app",
+				tenantKey:"app",
 				cmd:"update",
 				table:"table1",
 				sessionId:"session2",
@@ -116,7 +116,7 @@ setTimeout(function(){
 			registerExpectedCall("table1",10,"user1");
 			registerExpectedCall("table1",10,"user2");
 			sendCmd({
-				appKey:"app",
+				tenantKey:"app",
 				cmd:"update",
 				table:"table1",
 				sessionId:"session3",
