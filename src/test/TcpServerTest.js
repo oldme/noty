@@ -1,9 +1,10 @@
 var clients		  = require('../clientList.js').getClientList(); //<ClientList
 var cache		  = require('../GlobalCache.js').getGlobalCache(clients.validClient);
 
-require('../tcpServer.js').createTCPServer(3000);
+//require('../tcpServer.js').createTCPServer(3000);
 
 var net = require('net');
+
 
 var persistence= net.createConnection(3000);
 
@@ -57,7 +58,7 @@ function registerClient(clientSocket,sessionId,user){
 	  clientSocket.write(strCmd);
 	  var carrier = require('carrier'); //<carrier
 	  carrier.carry(clientSocket, function(line) {
-			var querystring   	= require('querystring');  
+			var querystring   	= require('querystring');
 			//console.info(line);
 		    var cmd = querystring.parse(line);
 		    doCall(cmd.table,cmd.id,cmd.user);
@@ -71,30 +72,28 @@ registerClient(client3,"session3","user3");
 
 
 
-function sendCmd(cmd){	
-	var queryString   	= require('querystring').stringify(cmd);   
-    //console.info("Sending client command: " + queryString )    
+function sendCmd(cmd){
+	var queryString   	= require('querystring').stringify(cmd);
+    //console.info("Sending client command: " + queryString )
 	persistence.write(queryString+"\n");
 }
 
-setTimeout(function(){	
+setTimeout(function(){
 	sendCmd({
 				appKey:"app",
 				cmd:"subscribe",
 				table:"table1",
 				sessionId:"session1",
-				ranges:"1-10,500,1000-2000",
-				secret:"secret"
+				ranges:"1-10,500,1000-2000"
 			});
-	
-	
+
+
 	sendCmd({
 				appKey:"app",
 				cmd:"subscribe",
 				table:"table1",
 				sessionId:"session2",
-				ranges:"1-10,500,1000-1500",
-				secret:"secret"
+				ranges:"1-10,500,1000-1500"
 			});
 	
 	sendCmd({
@@ -102,8 +101,7 @@ setTimeout(function(){
 				cmd:"subscribe",
 				table:"table1",
 				sessionId:"session3",
-				ranges:"1-10,1000",
-				secret:"secret"	
+				ranges:"1-10,1000"
 			});
 	
 	registerExpectedCall("table1",500,"user1");		
@@ -112,8 +110,7 @@ setTimeout(function(){
 				cmd:"update",
 				table:"table1",
 				sessionId:"session2",
-				id:"500",
-				secret:"secret"
+				id:"500"
 			});
 	
 			registerExpectedCall("table1",10,"user1");
@@ -123,26 +120,24 @@ setTimeout(function(){
 				cmd:"update",
 				table:"table1",
 				sessionId:"session3",
-				id:"10"	,
-				secret:"secret"
+				id:"10"
 			});			
 	},100);
 
-		
 
-setTimeout(function(){	
+
+setTimeout(function(){
 	console.log("No other messages,all tests passing!\n");
-	//check that there are no expected but duplicated and therefore invalid calls 
-	for(var callName in callCounter){	
+	//check that there are no expected but duplicated and therefore invalid calls
+	for(var callName in callCounter){
 		if(callCounter[callName] >0){
 			console.log("Missing calls for " + callName +" (" + callCounter[callName]+ ')');
 		}
-		
+
 		if(callCounter[callName] <0){
 			console.log("Unexpected calls for " + callName +" ( " + callCounter[callName] + ')');
 		}	
 	}
-
 
 	persistence.end();
 	client1.end();

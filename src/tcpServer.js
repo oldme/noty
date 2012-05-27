@@ -108,10 +108,11 @@ NotyTcpServer.prototype.dispatchCommand = function(line,socket)
 {
 	var querystring   	= require('querystring');   
     var cmd = querystring.parse(line);
-   
+
+    console.log('Got line: ' + line);
     if(cmd.cmd ==null)
     {
-    	console.log('Got one wrong line: ' + line + ' parsed as ');
+    	console.log('Got one wrong line: ' + line );
         
     }
     else
@@ -122,9 +123,9 @@ NotyTcpServer.prototype.dispatchCommand = function(line,socket)
     		clients.addClient(cmd.sessionId,socket,cmd.user);
     		return ;
     	}
-    	else if(cmd.secret != "secret") //TODO: get this secret from a configuration file
+    	else if(!clients.validClient(cmd.sessionId))
     	{
-    		console.log("Wrong secret! Ignoring\n");
+    		console.log("Wrong session! Command should be ignored \n" + cmd.sessionId);
     		return ;
     	}
 
